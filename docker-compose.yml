@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  personal-web:
+    build: ./personal-site
+    ports:
+      - "8080:80"
+    restart: always
+
+  todo-app:
+    build: ./todomvc-master
+    ports:
+      - "8081:80"
+    restart: always

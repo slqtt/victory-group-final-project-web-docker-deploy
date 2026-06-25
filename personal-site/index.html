@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Team Introduction Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            background-color: #f0f4f8;
+            padding: 40px 20px;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header-section h1 {
+            color: #222222;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .header-section p {
+            color: #666666;
+            font-size: 18px;
+        }
+        /* Team Card Container */
+        .team-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        /* Single Member Card */
+        .member-card {
+            width: 320px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        /* Avatar Photo Area */
+        .avatar-container {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+        }
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .member-card:hover .avatar-container img {
+            transform: scale(1.08);
+        }
+        /* Member Text Info */
+        .info-area {
+            padding: 24px;
+            text-align: center;
+        }
+        .info-area h2 {
+            font-size: 24px;
+            color: #111111;
+            margin-bottom: 8px;
+        }
+        .student-id {
+            color: #4488dd;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .duty-text {
+            color: #666666;
+            line-height: 1.6;
+        }
+        /* Popup Modal Mask */
+        .modal-mask {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 99;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-mask.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 450px;
+            text-align: center;
+        }
+        .modal-content h3 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #222222;
+        }
+        .modal-content p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #555555;
+            margin: 6px 0;
+        }
+        .close-modal-btn {
+            margin-top: 20px;
+            padding: 10px 28px;
+            border: none;
+            background: #4488dd;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .close-modal-btn:hover {
+            background: #3377cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-section">
+        <h1>Lab12 Final Project Group Members</h1>
+        <p>Docker & Docker Compose Deployment Task | Click card to view detailed responsibilities</p>
+    </div>
+
+    <div class="team-wrapper">
+        <!-- Member 1 -->
+        <div class="member-card"
+             data-fullname="Duan Junjie"
+             data-studentid="20242179"
+             data-responsibility="Develop personal website, write Dockerfile, configure GitHub Actions CI/CD pipeline">
+            <div class="avatar-container">
+                <img src="user1.jpg" alt="Member 1 Photo">
+            </div>
+            <div class="info-area">
+                <h2>Duan Junjie</h2>
+                <div class="student-id">Student ID: 20242179</div>
+                <div class="duty-text">Frontend development & CI/CD pipeline setup</div>
+            </div>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="member-card"
+             data-fullname="Zhang Sheng"
+             data-studentid="20242176"
+             data-responsibility="Integrate open-source TodoMVC app, write docker-compose.yml, server deployment and debugging">
+            <div class="avatar-container">
+                <img src="user2.jpg" alt="Member 2 Photo">
+            </div>
+            <div class="info-area">
+                <h2>Zhang Sheng</h2>
+                <div class="student-id">Student ID: 20242176</div>
+                <div class="duty-text">Container orchestration & cloud server deployment</div>
+            </div>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="member-card"
+             data-fullname="Li Mingze"
+             data-studentid="20242177"
+             data-responsibility="Complete project documentation, edit README.md, record full operation video, organize GitHub repository">
+            <div class="avatar-container">
+                <img src="user3.jpg" alt="Member 3 Photo">
+            </div>
+            <div class="info-area">
+                <h2>Li Mingze</h2>
+                <div class="student-id">Student ID: 20242177</div>
+                <div class="duty-text">Document writing, screen recording & repo management</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Modal -->
+    <div class="modal-mask" id="modalMask">
+        <div class="modal-content">
+            <h3 id="modalName"></h3>
+            <p id="modalId"></p>
+            <p id="modalDuty"></p>
+            <button class="close-modal-btn" id="closeBtn">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Get all DOM elements
+        const allCards = document.querySelectorAll('.member-card');
+        const mask = document.getElementById('modalMask');
+        const nameText = document.getElementById('modalName');
+        const idText = document.getElementById('modalId');
+        const dutyText = document.getElementById('modalDuty');
+        const closeButton = document.getElementById('closeBtn');
+
+        // Click card to open detail popup
+        allCards.forEach(card => {
+            card.addEventListener('click', function () {
+                const fullName = this.dataset.fullname;
+                const sid = this.dataset.studentid;
+                const duty = this.dataset.responsibility;
+
+                nameText.innerText = fullName;
+                idText.innerText = `Student ID: ${sid}`;
+                dutyText.innerText = `Responsibilities: ${duty}`;
+
+                mask.classList.add('active');
+            });
+        });
+
+        // Close modal button
+        closeButton.addEventListener('click', () => {
+            mask.classList.remove('active');
+        });
+
+        // Click dark background to close modal
+        mask.addEventListener('click', function (e) {
+            if (e.target === mask) {
+                mask.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
