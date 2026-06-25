@@ -149,3 +149,4 @@ Open ports **8080** and **8081** in your cloud server security group or firewall
 - GitHub Actions
 - CI/CD
 - l145632：负责个人网站开发，参与项目协作
+- l145632(Zhang Sheng 20242176): Responsible for TodoMVC project integration and docker-compose configuration, responsible for cloud server deployment debugging, and participating in the whole project collaboration.
