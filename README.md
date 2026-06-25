@@ -148,3 +148,4 @@ Open ports **8080** and **8081** in your cloud server security group or firewall
 - Nginx
 - GitHub Actions
 - CI/CD
+- l145632：负责个人网站开发，参与项目协作
